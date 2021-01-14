@@ -1,11 +1,10 @@
-const uploadFile = (form) => {
+const uploadFile = async (form) => {
 	const file = form.files;
 	if (file.value === '') {
 		alert('Select a file.');
 		return undefined;
 	}
 	const formdata = new FormData(form);
-	(async () => {
 		try {
 			const result = await fetch('/lib/server/upload.php', {
 				method: 'POST',
@@ -13,9 +12,8 @@ const uploadFile = (form) => {
 			});
 
 			const json = await result.json();
-			alert(json.message);
+			return json;
 		} catch (e) {
-			console.error(e);
+			return e;
 		}
-	})();
 };

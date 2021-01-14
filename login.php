@@ -45,6 +45,7 @@ if ($userid === $result['phone']) {
 	if ($password === $result['passwd']) {
 		$_SESSION['user'] = $userid;
 		$_SESSION['loggedin'] = true;
+		$db->disconnect();
 		header("Location: /");
 	}
 	echo "Invalid Password";

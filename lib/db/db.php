@@ -1,5 +1,5 @@
 <?php
 define('DBHOST', 'localhost');
-define('DBUSER', 'root');
-define('DBPASS', '');
-define('DBNAME', 'admin_mc');
+define('DBUSER', 'id15215810_adeojopeter');
+define('DBPASS', '!y8*Rg!kXP4t^09k');
+define('DBNAME', 'id15215810_admin_mc');

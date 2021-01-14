@@ -1,0 +1,10 @@
+#login-form {
+	width: 50%;
+	margin: auto;
+	margin-top: 20px;
+}
+@media (max-width: 567px) {
+	#login-form {
+		width: 100%;
+	}
+}

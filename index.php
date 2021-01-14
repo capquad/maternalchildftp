@@ -1,12 +1,11 @@
 <?php
 session_start();
-require("./lib/classes/server.php");
-$db = new Database();
-if ($db->connect("admin_mc")) {
-	$id = "PER-011220";
-	if (!$db->insert("health_care_providers", ["hmoid" => "AXAMSD", "name" => "AXA Mansard Insurance"])) {
-		echo $db->getError();
-	} else {
-		echo "Done";
-	}
-}
+require('./lib/server/authorize.php');
+
+authorizeLogin(); // check if user is logged in
+
+require('./lib/db/db.php');
+require('./lib/db/database.php');
+require('./lib/config/pagesetup.php');
+
+require('./lib/util/header.php');

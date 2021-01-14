@@ -2,11 +2,18 @@
 
 class Database
 {
-	private $dbhost = "localhost";
-	private $dbpass = "";
-	private $dbuser = "root";
+	private $dbhost;
+	private $dbpass;
+	private $dbuser;
 	private $query_result = null;
 	private $lastError = null;
+
+	public function __construct($dbhost, $dbuser, $dbpass)
+	{
+		$this->dbhost = $dbhost;
+		$this->dbpass = $dbpass;
+		$this->dbuser = $dbuser;
+	}
 
 	public function connect($dbname)
 	{

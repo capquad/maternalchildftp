@@ -81,7 +81,7 @@ class Database
 					return true;
 				}
 				if (mysqli_num_rows($query) === 1) {
-					$result = @mysqli_fetch_assoc($query);
+					$result = [@mysqli_fetch_assoc($query)];
 					// $result = [$result
 				}
 				if (mysqli_num_rows($query) > 1) {

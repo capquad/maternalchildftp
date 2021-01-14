@@ -3,6 +3,9 @@
 	margin: auto;
 	margin-top: 20px;
 }
+.feature-desc {
+	height: 160px;
+}
 @media (max-width: 567px) {
 	#login-form {
 		width: 100%;

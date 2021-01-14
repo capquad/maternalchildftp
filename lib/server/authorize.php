@@ -4,6 +4,8 @@ function authorizeLogin()
 	if (!@$_SESSION['loggedin']) {
 		header("Location: /login.php");
 	}
+	$user = $_SESSION['user'];
+	return $user;
 }
 
 function validateUserid($string)
@@ -19,4 +21,10 @@ function validatePassword ($string) {
 		return false;
 	}
 	return true;
+}
+
+function validateFile($file, $valid_extensions) {
+	$file_parts = explode('.', $file['name']);
+	$ext = $file_parts[array_key_last($file_parts)];
+	return in_array($ext, $valid_extensions);
 }

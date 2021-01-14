@@ -2,7 +2,7 @@
 function authorizeLogin()
 {
 	if (!@$_SESSION['loggedin']) {
-		header("Location: /");
+		header("Location: /login.php");
 	}
 }
 

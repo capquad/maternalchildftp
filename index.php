@@ -16,7 +16,7 @@ require('./lib/util/header.php');
 	<div class="container py-4">
 		<h2>Dashboard</h2>
 		<div class="row mt-4">
-			<div class="col-sm-6 col-md-4 mb-4 mb-sm-0">
+			<div class="col-sm-6 col-md-4 mb-4 mb-md-0">
 				<div class="bg-primary text-light p-3">
 					<h3>FTP</h3>
 				</div>
@@ -29,7 +29,7 @@ require('./lib/util/header.php');
 					<a href="/ftp.php" class="text-light">Go to File Transfer Portal</a>
 				</div>
 			</div>
-			<div class="col-sm-6 col-md-4 mb-4 mb-sm-0">
+			<div class="col-sm-6 col-md-4 mb-4 mb-md-0">
 				<div class="bg-primary text-light p-3">
 					<h3>Notifications</h3>
 				</div>
@@ -42,7 +42,7 @@ require('./lib/util/header.php');
 					<a href="/notifications.php" class="text-light">Go to Notifications Board</a>
 				</div>
 			</div>
-			<div class="col-sm-6 col-md-4 mb-4 mb-sm-0">
+			<div class="col-sm-6 col-md-4 mb-4 mb-md-0">
 				<div class="bg-primary text-light p-3">
 					<h3>Messages</h3>
 				</div>

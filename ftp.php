@@ -34,9 +34,9 @@ $db->connect(DBNAME);
 							$db->select("staff", "phone, fname, lname", "phone != '$user'");
 							$result = $db->getResults();
 							if (count($result) > 0) {
-								foreach($result as $staff) {
-									$staff['name'] = $staff['fname']." ".$staff['lname'];
-									echo "<option value='".$staff['phone']."'>".$staff['name']."</option>";
+								foreach ($result as $staff) {
+									$staff['name'] = $staff['fname'] . " " . $staff['lname'];
+									echo "<option value='" . $staff['phone'] . "'>" . $staff['name'] . "</option>";
 								}
 							}
 							?>
@@ -50,25 +50,23 @@ $db->connect(DBNAME);
 			</div>
 			<div class="col-md-6">
 				<div class="text-right">
-					<button class="btn btn-dark">Refresh</button>
+					<button class="btn btn-dark" onclick="refreshFileList()">Refresh</button>
 				</div>
 				<h3>Received Files</h3>
 				<table id="received-files" class="table table-bordered mb-4">
 					<thead>
 						<th>Sender</th>
 						<th>File</th>
-						<th></th>
 					</thead>
 					<tbody id="received-list"></tbody>
 				</table>
 				<h3>Sent Files</h3>
-				<table id="received-files" class="table table-bordered">
+				<table id="sent-files" class="table table-bordered">
 					<thead>
-						<th>Sender</th>
+						<th>Receiver</th>
 						<th>File</th>
-						<th></th>
 					</thead>
-					<tbody id="received-list"></tbody>
+					<tbody id="sent-list"></tbody>
 				</table>
 			</div>
 		</div>

@@ -16,15 +16,18 @@ function validateUserid($string)
 	return true;
 }
 
-function validatePassword ($string) {
+function validatePassword($string)
+{
 	if (!preg_match("/^[a-zA-Z0-9_]{8,}$/", $string)) {
 		return false;
 	}
 	return true;
 }
 
-function validateFile($file, $valid_extensions) {
+function validateFile($file, $valid_extensions)
+{
 	$file_parts = explode('.', $file['name']);
 	$ext = $file_parts[array_key_last($file_parts)];
-	return in_array($ext, $valid_extensions);
+	return in_array(strtolower($ext), $valid_extensions);
 }
+

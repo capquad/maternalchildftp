@@ -189,9 +189,8 @@ class Database
 
 	public function getResults()
 	{
-		// Extract and reset last result from Database Object
+		// Extract and last result from Database Object
 		$result = $this->query_result;
-		$this->query_result = null;
 		return $result;
 	}
 

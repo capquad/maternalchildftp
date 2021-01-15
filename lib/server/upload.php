@@ -1,18 +1,20 @@
 <?php
 session_start();
-if (!isset($_POST) or !isset($_FILES)) {
-	echo json_encode("Get out");
-	exit();
-}
+
+require('./functions.php');
 require('./authorize.php');
+
+if (!isset($_POST) or !isset($_FILES)) {
+	deliverJsonOutput(["message" => "Forbidden Access"]);
+}
+
+if (!validateUserid($_POST['recipient'])) {
+	deliverJsonOutput(['message' => 'Invalid Recipient ID']);
+}
+$recipient = $_POST['recipient'];
 
 $user = authorizeLogin(); // check if user is logged in
 
-function deliverJsonOutput($data)
-{
-	echo json_encode($data, 512);
-	exit();
-}
 
 require('../db/db.php');
 require('../config/config.inc.php');
@@ -38,10 +40,37 @@ if (!$db->connect(DBNAME)) {
 
 // deliverJsonOutput(['message' => UPLOAD_DIR]);
 
-if (!is_dir(UPLOAD_DIR)) {
-	if (mkdir(UPLOAD_DIR, 0777, true)) {
-		deliverJsonOutput(["message" => "DIR created"]);
-	} else {
-		deliverJsonOutput(["message" => "DIR not created"]);
+chdir('../../');
+if (!file_exists(UPLOAD_DIR)) {
+	if (!mkdir(UPLOAD_DIR, 0777, true)) {
+		deliverJsonOutput(['message' => 'Internal Server Error occured. Please try again later']);
 	}
 }
+
+$filename = $file['name'];
+if (file_exists(UPLOAD_DIR . $filename)) {
+	// deliverJsonOutput(['message' => "$filename exists already."]);
+	$newFilename = $filename;
+	for ($i = 0; file_exists(UPLOAD_DIR . $newFilename); $i += 1) {
+		$file_name = explode('.', $filename)[0];
+		$file_ext = explode('.', $filename)[1];
+		$newFilename = "$file_name ($i).$file_ext";
+	}
+	$filename = $newFilename;
+}
+$db = new Database(DBHOST, DBUSER, DBPASS);
+if (!$db->connect(DBNAME)) {
+	deliverJsonOutput(['message' => 'Database failed to connect. Please try again later.']);
+}
+
+$targetFile = UPLOAD_DIR . $filename;
+$datetime = date('Y-m-d H:i:s');
+if (move_uploaded_file($file['tmp_name'], $targetFile)) {
+	if (!$db->insert('staff_ftp', ['sender' => $user, 'receiver' => $recipient, 'file_link' => $targetFile, 'name' => $filename, 'date' => $datetime])) {
+		logEvent("$targetFile from $user to $recipient was not registered into the database @$datetime", 'error');
+	}
+	deliverJsonOutput(['message' => "$filename has been uploaded."]);
+}
+
+logEvent("$filename from $user upload failed.", 'error');
+deliverJsonOutput(["message" => "$filename upload failed."]);

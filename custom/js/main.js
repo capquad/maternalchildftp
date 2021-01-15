@@ -5,15 +5,15 @@ const uploadFile = async (form) => {
 		return undefined;
 	}
 	const formdata = new FormData(form);
-		try {
-			const result = await fetch('/lib/server/upload.php', {
-				method: 'POST',
-				body: formdata,
-			});
+	try {
+		const result = await fetch('/lib/server/upload.php', {
+			method: 'POST',
+			body: formdata,
+		});
 
-			const json = await result.json();
-			return json;
-		} catch (e) {
-			return e;
-		}
+		const json = await result.json();
+		return json;
+	} catch (e) {
+		return e;
+	}
 };

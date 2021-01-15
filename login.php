@@ -36,7 +36,7 @@ if (!$db->select("staff", "phone, passwd", "phone='$userid'")) {
 	echo $db->getError();
 	exit();
 }
-$result = $db->getResults();
+$result = $db->getResults()[0];
 if (count($result) < 1) {
 	echo "User does not exist";
 	exit();

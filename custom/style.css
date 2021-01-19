@@ -6,6 +6,52 @@
 .feature-desc {
 	height: 160px;
 }
+ol li.list-group-item {
+	display: list-item;
+	border: 0;
+}
+ol li.list-group-item.default {
+	list-style-type: none;
+	/* display: block; */
+}
+.notification {
+	margin-bottom: 20px;
+	padding: 4px;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	background-color: #eee;
+	padding-left: 1em;
+}
+.notification .notif-head,
+.notification .notification-sender {
+	vertical-align: middle;
+}
+.notification pre {
+	font-family: inherit;
+	font-size: inherit;
+	height: 90px;
+	overflow: hidden;
+}
+.notification-page pre {
+	font-family: inherit;
+	font-size: inherit;
+	background-color: #eee;
+	padding: 1.4em;
+}
+.notification .notification-header {
+	vertical-align: middle;
+	font-size: 2em;
+	font-weight: 700;
+}
+#back-to-top {
+	position: fixed;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	font-size: .7em;
+	top: 90%;
+	left: 95%;
+}
 @media (max-width: 567px) {
 	#login-form {
 		width: 100%;

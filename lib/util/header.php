@@ -29,6 +29,7 @@
 						<ul class="navbar-nav">
 							<li class="nav-item"><a href="/" class="nav-link">Home</a></li>
 							<li class="nav-item"><a href="/ftp.php" class="nav-link">FTP</a></li>
+							<li class="nav-item"><a href="/notifications.php" class="nav-link">Notifications</a></li>
 							<li class="nav-item"><a href="/profile.php" class="nav-link">Profile</a></li>
 						</ul>
 						<ul class="navbar-nav ml-auto">
@@ -44,3 +45,4 @@ _;
 		}
 		?>
 	</header>
+	

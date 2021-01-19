@@ -207,9 +207,11 @@ class Database
 		// Using modes such as 'insert', 'update'
 		if ($mode === "insert") {
 			$rows = implode(', ', array_keys($data));
+			$rows = mysqli_escape_string($this->connection, $rows);
 			$value_list = array_values($data);
 			$values = "";
 			for ($i = 0; $i < count($value_list); $i += 1) {
+				$value_list[$i] = mysqli_escape_string($this->connection, $value_list[$i]);
 				$values .= "'" . $value_list[$i] . "'";
 				if ($i < count($value_list) - 1) {
 					$values .= ", ";

@@ -20,6 +20,7 @@ require('../db/db.php');
 require('../config/config.inc.php');
 require('../db/database.php');
 
+// List of accepted file types
 define('VALID_EXT', ['txt', 'docx', 'doc', 'xls', 'xlsx', 'pdf', 'html', 'js', 'sql', 'accdb', 'ppt', 'pptx', 'pptm', 'accda', 'mdb', 'jpg', 'jpeg', 'png', 'bmp', 'gif', 'mp3', 'mp4']);
 
 $file = $_FILES['files'];
@@ -28,6 +29,7 @@ if (!validateFile($file, VALID_EXT)) {
 	deliverJsonOutput(["message" => $message]);
 }
 
+$filesize = round($file['size'] / 1.049e6, 2);
 if (round($file['size'] / 1.049e6, 2) > 100) {
 	$message = "File greater than 100MB";
 	deliverJsonOutput(["message" => $message]);
@@ -35,25 +37,27 @@ if (round($file['size'] / 1.049e6, 2) > 100) {
 
 $db = new Database(DBHOST, DBUSER, DBPASS);
 if (!$db->connect(DBNAME)) {
-	deliverJsonOutput(["message" => "Failed to connect to Database. " . $db->getError()]);
+	$error = $db->getError();
+	logEvent("USER: $user. Database connection failure. REASON: $error", "error");
+	deliverJsonOutput(["message" => "Failed to connect to Database. " . $error]);
 }
 
 // deliverJsonOutput(['message' => UPLOAD_DIR]);
 
-chdir('../../');
+$filename = $file['name'];
 if (!file_exists(UPLOAD_DIR)) {
 	if (!mkdir(UPLOAD_DIR, 0777, true)) {
+		logEvent("USER: $user. File upload failed. REASON: Directory does not exist and PATH creation failed [$filename, $filesize]");
 		deliverJsonOutput(['message' => 'Internal Server Error occured. Please try again later']);
 	}
 }
 
-$filename = $file['name'];
 if (file_exists(UPLOAD_DIR . $filename)) {
 	// deliverJsonOutput(['message' => "$filename exists already."]);
 	$newFilename = $filename;
 	for ($i = 0; file_exists(UPLOAD_DIR . $newFilename); $i += 1) {
-		$file_name = explode('.', $filename)[0];
-		$file_ext = explode('.', $filename)[1];
+		$file_name = explode('.', $filename, 2)[0];
+		$file_ext = explode('.', $filename, 2)[1];
 		$newFilename = "$file_name ($i).$file_ext";
 	}
 	$filename = $newFilename;
@@ -64,11 +68,13 @@ if (!$db->connect(DBNAME)) {
 }
 
 $targetFile = UPLOAD_DIR . $filename;
-$datetime = date('Y-m-d H:i:s');
 if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-	if (!$db->insert('staff_ftp', ['sender' => $user, 'receiver' => $recipient, 'file_link' => $targetFile, 'name' => $filename, 'date' => $datetime])) {
-		logEvent("$targetFile from $user to $recipient was not registered into the database @$datetime", 'error');
+	if (!$db->insert('staff_ftp', ['sender' => $user, 'receiver' => $recipient, 'file_link' => $targetFile, 'name' => $filename, 'date' => date('Y-m-d H:i:s')])) {
+		logEvent("$targetFile from $user to $recipient was not registered into the database", 'error');
+		deliverJsonOutput(['message' => $db->getError()]);
 	}
+	$db->disconnect();
+	logEvent("$targetFile from $user to $recipient has been uploaded");
 	deliverJsonOutput(['message' => "$filename has been uploaded."]);
 }
 

@@ -46,6 +46,7 @@ if (isset($_GET['content'])) {
 				$data['received'][$rec]['sender'] = $receiver;
 			}
 		}
+		$db->disconnect();
 		deliverJsonOutput(["data" => $data]);
 	}
 }

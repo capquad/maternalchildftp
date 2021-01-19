@@ -1,10 +1,17 @@
 <?php
-function authorizeLogin()
+function authorizeLogin($db = null)
 {
-	if (!@$_SESSION['loggedin']) {
+	if (!isset($_SESSION['loggedin']) or $_SESSION['loggedin'] !== true) {
 		header("Location: /login.php");
+		return;
 	}
 	$user = $_SESSION['user'];
+	if ($db !== null) {
+		if ($db->select('staff', 'fname, mname, lname, phone, designation, officeid', "phone='$user'")) {
+			$user = $db->getResults()[0];
+			$user['name'] = join(' ', [$user['lname'], $user['fname'], $user['mname']]);
+		}
+	}
 	return $user;
 }
 
@@ -30,4 +37,3 @@ function validateFile($file, $valid_extensions)
 	$ext = $file_parts[array_key_last($file_parts)];
 	return in_array(strtolower($ext), $valid_extensions);
 }
-

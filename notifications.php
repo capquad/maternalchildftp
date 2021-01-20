@@ -80,7 +80,7 @@ require './lib/util/header.php';
 							}
 							echo "<div class='notification'>";
 							echo "<p class='notif-head'><span class='notification-header'>" . $info['title'] . "</span>  <span class='notification-sender'>- " . $info['sender'] . "</span></p>";
-							$message = file_get_contents($info['file']);
+							$message = file_get_contents($_SERVER['DOCUMENT_ROOT'].$info['file']);
 							echo "<pre>" . $message . "</pre>";
 							echo "<a href='/notification.php?title=" . $info['title'] . "'> See this Notification in full</a>";
 							echo "</div>";

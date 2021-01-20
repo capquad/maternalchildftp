@@ -49,7 +49,7 @@ function uploadFile($file, $db, $db_data, $options)
 	$destination = UPLOAD_DIR . $filename;
 	// exit();
 	if (move_uploaded_file($file['tmp_name'], $destination)) {
-		$db_data['data']['file'] = $destination;
+		$db_data['data']['file'] = "/assets/upload/$filename";
 		if (!$db->insert($db_name, $db_data['data'])) {
 			$error = $db->getError();
 			logEvent("'$destination' from @$user to $recipient was uploaded but was not registered into the database. $error", 'error');

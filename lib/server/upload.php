@@ -69,7 +69,7 @@ if (!$db->connect(DBNAME)) {
 
 $targetFile = UPLOAD_DIR . $filename;
 if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-	if (!$db->insert('staff_ftp', ['sender' => $user, 'receiver' => $recipient, 'file_link' => $targetFile, 'name' => $filename, 'date' => date('Y-m-d H:i:s')])) {
+	if (!$db->insert('staff_ftp', ['sender' => $user, 'receiver' => $recipient, 'file_link' => "/assets/upload/$filename", 'name' => $filename, 'date' => date('Y-m-d H:i:s')])) {
 		logEvent("$targetFile from $user to $recipient was not registered into the database", 'error');
 		deliverJsonOutput(['message' => $db->getError()]);
 	}

@@ -53,7 +53,7 @@ require './lib/util/header.php';
 		<h2><?= $notification_title ?></h2>
 		<div class="notification-page">
 			<pre>
-				<?= file_get_contents($notification['file']) ?>
+				<?= file_get_contents($_SERVER['DOCUMENT_ROOT'].$notification['file']) ?>
 			</pre>
 		</div>
 	</div>

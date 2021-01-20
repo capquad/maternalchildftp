@@ -81,7 +81,7 @@ class Database
 					return true;
 				}
 				if (mysqli_num_rows($query) === 1) {
-					$result = @mysqli_fetch_assoc($query);
+					$result = [@mysqli_fetch_assoc($query)];
 					// $result = [$result
 				}
 				if (mysqli_num_rows($query) > 1) {
@@ -189,9 +189,8 @@ class Database
 
 	public function getResults()
 	{
-		// Extract and reset last result from Database Object
+		// Extract and last result from Database Object
 		$result = $this->query_result;
-		$this->query_result = null;
 		return $result;
 	}
 
@@ -208,9 +207,11 @@ class Database
 		// Using modes such as 'insert', 'update'
 		if ($mode === "insert") {
 			$rows = implode(', ', array_keys($data));
+			$rows = mysqli_escape_string($this->connection, $rows);
 			$value_list = array_values($data);
 			$values = "";
 			for ($i = 0; $i < count($value_list); $i += 1) {
+				$value_list[$i] = mysqli_escape_string($this->connection, $value_list[$i]);
 				$values .= "'" . $value_list[$i] . "'";
 				if ($i < count($value_list) - 1) {
 					$values .= ", ";
